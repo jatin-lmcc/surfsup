@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Arnala Surf Dashboard</title>
+<title>Black Sand Surf School Dashboard</title>
 
 <style>
 body{
@@ -29,7 +29,7 @@ margin-top:10px;
 
 <body>
 
-<h1>🌊 Arnala Surf Dashboard</h1>
+<h1>🌊 Black Sand Surf School Live Dashboard</h1>
 
 <div class="card">
 Wave Height
@@ -46,19 +46,24 @@ Surf Rating
 <div id="rating" class="big">Loading...</div>
 </div>
 
+<div class="card">
+Last Updated
+<div id="updated" class="big">Loading...</div>
+</div>
+
 <script>
 
 async function loadSurf(){
 
 try{
 
-const url="https://marine-api.open-meteo.com/v1/marine?latitude=19.45&longitude=72.75&current=wave_height,wind_speed_10m";
+const url="https://marine-api.open-meteo.com/v1/marine?latitude=19.45&longitude=72.75&current=wave_height&hourly=wind_speed_10m";
 
 const res=await fetch(url);
 const data=await res.json();
 
 const wave=data.current.wave_height;
-const wind=data.current.wind_speed_10m;
+const wind=data.hourly.wind_speed_10m[0];
 
 document.getElementById("wave").innerText=wave+" m";
 document.getElementById("wind").innerText=wind+" km/h";
@@ -77,6 +82,7 @@ document.getElementById("rating").innerText=rating;
 
 }catch(e){
 
+console.log(e);
 document.body.innerHTML+="<p>API Error loading data</p>";
 
 }
@@ -84,6 +90,10 @@ document.body.innerHTML+="<p>API Error loading data</p>";
 }
 
 window.onload=loadSurf;
+
+const now = new Date();
+document.getElementById("updated").innerText =
+now.toLocaleDateString() + " " + now.toLocaleTimeString();
 
 </script>
 
