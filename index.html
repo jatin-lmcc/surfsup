@@ -1,55 +1,82 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Black Sand Surf School Dashboard</title>
+<title>Black Sand Surf School</title>
 
 <style>
+
 body{
-font-family:Arial;
-background:#0c1b2a;
+font-family:Arial, sans-serif;
+background:#0b1e2d;
 color:white;
 text-align:center;
+margin:0;
 padding:40px;
 }
 
-.card{
-background:#132f4c;
-padding:20px;
-margin:20px auto;
-border-radius:10px;
-width:250px;
+h1{
+margin-bottom:30px;
 }
 
-.big{
+.dashboard{
+display:flex;
+justify-content:center;
+gap:20px;
+flex-wrap:wrap;
+}
+
+.card{
+background:#163a59;
+padding:25px;
+border-radius:12px;
+width:220px;
+box-shadow:0 6px 15px rgba(0,0,0,0.3);
+}
+
+.label{
+font-size:14px;
+opacity:0.8;
+}
+
+.value{
+font-size:40px;
+margin-top:10px;
+font-weight:bold;
+}
+
+.rating{
 font-size:36px;
 margin-top:10px;
 }
+
+.updated{
+margin-top:30px;
+font-size:13px;
+opacity:0.7;
+}
+
 </style>
 </head>
 
 <body>
 
-<h1>🌊 Black Sand Surf School Live Dashboard</h1>
+<h1>🌊 Wave Check for Black Sand Surf School</h1>
+
+<div class="dashboard">
 
 <div class="card">
-Wave Height
-<div id="wave" class="big">Loading...</div>
+<div class="label">Wave Height</div>
+<div id="wave" class="value">Loading...</div>
 </div>
 
 <div class="card">
-Wind Speed
-<div id="wind" class="big">Loading...</div>
+<div class="label">Surf Rating</div>
+<div id="rating" class="rating">Loading...</div>
 </div>
 
-<div class="card">
-Surf Rating
-<div id="rating" class="big">Loading...</div>
 </div>
 
-<div class="card">
-Last Updated
-<div id="updated" class="big">Loading...</div>
-</div>
+<div id="updated" class="updated"></div>
 
 <script>
 
@@ -57,43 +84,44 @@ async function loadSurf(){
 
 try{
 
-const url="https://marine-api.open-meteo.com/v1/marine?latitude=19.45&longitude=72.75&current=wave_height&hourly=wind_speed_10m";
+const url="https://marine-api.open-meteo.com/v1/marine?latitude=19.45&longitude=72.75&current=wave_height";
 
 const res=await fetch(url);
 const data=await res.json();
 
 const wave=data.current.wave_height;
-const wind=data.hourly.wind_speed_10m[0];
 
 document.getElementById("wave").innerText=wave+" m";
-document.getElementById("wind").innerText=wind+" km/h";
 
 let score=0;
 
-if(wave>0.8) score+=3;
-if(wind<12) score+=3;
+if(wave>1.2) score=4;
+else if(wave>0.9) score=3;
+else if(wave>0.6) score=2;
+else score=1;
 
-let rating="Skip";
+let rating="⭐ Poor";
 
-if(score>=6) rating="⭐⭐⭐ Good";
-else if(score>=3) rating="⭐⭐ Okay";
+if(score==4) rating="⭐⭐⭐⭐ Epic";
+else if(score==3) rating="⭐⭐⭐ Good";
+else if(score==2) rating="⭐⭐ Okay";
 
 document.getElementById("rating").innerText=rating;
 
+const now=new Date();
+
+document.getElementById("updated").innerText=
+"Last updated: "+now.toLocaleString();
+
 }catch(e){
 
-console.log(e);
-document.body.innerHTML+="<p>API Error loading data</p>";
+document.getElementById("rating").innerText="Error loading data";
 
 }
 
 }
 
-window.onload=loadSurf;
-
-const now = new Date();
-document.getElementById("updated").innerText =
-now.toLocaleDateString() + " " + now.toLocaleTimeString();
+loadSurf();
 
 </script>
 
