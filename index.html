@@ -55,6 +55,16 @@ font-size:13px;
 opacity:0.7;
 }
 
+.footer{
+margin-top:40px;
+font-size:12px;
+opacity:0.7;
+}
+
+.made{
+margin-top:5px;
+}
+
 </style>
 </head>
 
@@ -123,7 +133,40 @@ document.getElementById("rating").innerText="Error loading data";
 
 loadSurf();
 
+async function loadVersion(){
+
+try{
+
+const res = await fetch(
+"https://api.github.com/repos/jatin-lmcc/surfsup/commits/main"
+);
+
+const data = await res.json();
+
+const sha = data.sha.substring(0,7);
+
+document.getElementById("version").innerText =
+"Build " + sha;
+
+}catch(e){
+
+document.getElementById("version").innerText =
+"Build info unavailable";
+
+}
+
+}
+
+loadVersion();
+
 </script>
+
+<footer class="footer">
+<div id="version"></div>
+<div class="made">
+Made with ❤️ from India 
+</div>
+</footer>
 
 </body>
 </html>
