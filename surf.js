@@ -1,68 +1,57 @@
-async function loadSurf(){
+async function loadForecast(){
 
-try{
+const url =
+"https://marine-api.open-meteo.com/v1/marine?latitude=19.449187&longitude=72.748365&hourly=wave_height&forecast_days=3";
 
-const url="https://marine-api.open-meteo.com/v1/marine?latitude=19.45&longitude=72.75&current=wave_height";
-
-const res=await fetch(url);
-const data=await res.json();
-
-const wave=data.current.wave_height;
-
-document.getElementById("wave").innerText=wave+" m";
-
-let score=0;
-
-if(wave>1.2) score=4;
-else if(wave>0.9) score=3;
-else if(wave>0.6) score=2;
-else score=1;
-
-let rating="⭐ Poor";
-
-if(score==4) rating="⭐⭐⭐⭐ Epic";
-else if(score==3) rating="⭐⭐⭐ Good";
-else if(score==2) rating="⭐⭐ Okay";
-
-document.getElementById("rating").innerText=rating;
-
-const now=new Date();
-
-document.getElementById("updated").innerText=
-"Last updated: "+now.toLocaleString();
-
-}catch(e){
-
-document.getElementById("rating").innerText="Error loading data";
-
-}
-
-}
-
-loadSurf();
-
-async function loadVersion(){
-
-try{
-
-const res = await fetch(
-"https://api.github.com/repos/jatin-lmcc/surfsup/commits/main"
-);
-
+const res = await fetch(url);
 const data = await res.json();
 
-const sha = data.sha.substring(0,7);
+const waves = data.hourly.wave_height;
+const times = data.hourly.time;
 
-document.getElementById("version").innerText =
-"Build " + sha;
+function getMorningAvg(day){
 
-}catch(e){
+let total = 0;
+let count = 0;
 
-document.getElementById("version").innerText =
-"Build info unavailable";
+for(let i=0;i<times.length;i++){
+
+if(times[i].startsWith(day) &&
+times[i].includes("06") ||
+times[i].includes("09")){
+
+total += waves[i];
+count++;
 
 }
 
 }
 
-loadVersion();
+return (total/count).toFixed(2);
+
+}
+
+const today = new Date();
+const yesterday = new Date(today);
+const tomorrow = new Date(today);
+
+yesterday.setDate(today.getDate()-1);
+tomorrow.setDate(today.getDate()+1);
+
+function format(d){
+
+return d.toISOString().split("T")[0];
+
+}
+
+const y = getMorningAvg(format(yesterday));
+const t = getMorningAvg(format(today));
+const tm = getMorningAvg(format(tomorrow));
+
+document.getElementById("yesterday").innerText = y+" m";
+document.getElementById("today").innerText = t+" m";
+document.getElementById("tomorrow").innerText = tm+" m";
+
+}
+
+loadForecast();
