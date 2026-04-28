@@ -16,9 +16,10 @@ let count = 0;
 
 for(let i=0;i<times.length;i++){
 
-if(times[i].startsWith(day) &&
-times[i].includes("06") ||
-times[i].includes("09")){
+if(
+times[i].startsWith(day) &&
+(times[i].includes("06:00") || times[i].includes("09:00"))
+){
 
 total += waves[i];
 count++;
@@ -27,7 +28,7 @@ count++;
 
 }
 
-return (total/count).toFixed(2);
+return count ? (total/count).toFixed(2) : "--";
 
 }
 
@@ -39,41 +40,27 @@ yesterday.setDate(today.getDate()-1);
 tomorrow.setDate(today.getDate()+1);
 
 function format(d){
-
 return d.toISOString().split("T")[0];
-
 }
 
 const y = getMorningAvg(format(yesterday));
 const t = getMorningAvg(format(today));
 const tm = getMorningAvg(format(tomorrow));
 
-document.getElementById("yesterday").innerText = y+" m";
-document.getElementById("today").innerText = t+" m";
-document.getElementById("tomorrow").innerText = tm+" m";
-
-}
-
-loadForecast();
-
 function getSurfRating(wave){
 
-if(wave < 0.6)
-return "⭐ Poor";
+wave = parseFloat(wave);
 
-if(wave < 0.9)
-return "⭐⭐ Fair";
-
-if(wave < 1.2)
-return "⭐⭐⭐ Good";
-
-if(wave < 1.6)
-return "⭐⭐⭐⭐ Great";
+if(wave < 0.6) return "⭐ Poor";
+if(wave < 0.9) return "⭐⭐ Fair";
+if(wave < 1.2) return "⭐⭐⭐ Good";
+if(wave < 1.6) return "⭐⭐⭐⭐ Great";
 
 return "⭐⭐⭐⭐⭐ Epic";
 
 }
 
+// Dashboard
 document.getElementById("y-wave").innerText = y + " m";
 document.getElementById("t-wave").innerText = t + " m";
 document.getElementById("tm-wave").innerText = tm + " m";
@@ -81,3 +68,7 @@ document.getElementById("tm-wave").innerText = tm + " m";
 document.getElementById("y-rating").innerText = getSurfRating(y);
 document.getElementById("t-rating").innerText = getSurfRating(t);
 document.getElementById("tm-rating").innerText = getSurfRating(tm);
+
+}
+
+loadForecast();
