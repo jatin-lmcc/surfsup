@@ -33,10 +33,10 @@ return count ? (total/count).toFixed(2) : "--";
 }
 
 const today = new Date();
-const yesterday = new Date(today);
+const dayAfter = new Date(today);
 const tomorrow = new Date(today);
 
-yesterday.setDate(today.getDate()-1);
+dayAfter.setDate(today.getDate()+2);
 tomorrow.setDate(today.getDate()+1);
 
 function format(d){
@@ -50,6 +50,9 @@ const tm = getMorningAvg(format(tomorrow));
 function getSurfRating(wave){
 
 wave = parseFloat(wave);
+
+if(isNaN(wave))
+return "--";
 
 if(wave < 0.6) return "⭐ Poor";
 if(wave < 0.9) return "⭐⭐ Fair";
