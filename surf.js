@@ -33,19 +33,19 @@ return count ? (total/count).toFixed(2) : "--";
 }
 
 const today = new Date();
-const dayAfter = new Date(today);
 const tomorrow = new Date(today);
+tomorrow.setDate(today.getDate() + 1);
 
-dayAfter.setDate(today.getDate()+2);
-tomorrow.setDate(today.getDate()+1);
+const dayAfter = new Date(today);
+dayAfter.setDate(today.getDate() + 2);
 
 function format(d){
 return d.toISOString().split("T")[0];
 }
 
-const y = getMorningAvg(format(yesterday));
 const t = getMorningAvg(format(today));
 const tm = getMorningAvg(format(tomorrow));
+const da = getMorningAvg(format(dayAfter));
 
 function getSurfRating(wave){
 
@@ -64,14 +64,13 @@ return "⭐⭐⭐⭐⭐ Epic";
 }
 
 // Dashboard
-document.getElementById("y-wave").innerText = y + " m";
 document.getElementById("t-wave").innerText = t + " m";
 document.getElementById("tm-wave").innerText = tm + " m";
+document.getElementById("da-wave").innerText = da + " m";
 
-document.getElementById("y-rating").innerText = getSurfRating(y);
 document.getElementById("t-rating").innerText = getSurfRating(t);
 document.getElementById("tm-rating").innerText = getSurfRating(tm);
-
+document.getElementById("da-rating").innerText = getSurfRating(da);
 }
 
 loadForecast();
