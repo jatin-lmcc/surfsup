@@ -55,3 +55,29 @@ document.getElementById("tomorrow").innerText = tm+" m";
 }
 
 loadForecast();
+
+function getSurfRating(wave){
+
+if(wave < 0.6)
+return "⭐ Poor";
+
+if(wave < 0.9)
+return "⭐⭐ Fair";
+
+if(wave < 1.2)
+return "⭐⭐⭐ Good";
+
+if(wave < 1.6)
+return "⭐⭐⭐⭐ Great";
+
+return "⭐⭐⭐⭐⭐ Epic";
+
+}
+
+document.getElementById("y-wave").innerText = y + " m";
+document.getElementById("t-wave").innerText = t + " m";
+document.getElementById("tm-wave").innerText = tm + " m";
+
+document.getElementById("y-rating").innerText = getSurfRating(y);
+document.getElementById("t-rating").innerText = getSurfRating(t);
+document.getElementById("tm-rating").innerText = getSurfRating(tm);
