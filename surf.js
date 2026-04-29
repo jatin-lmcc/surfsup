@@ -1,7 +1,16 @@
-async function loadForecast(){
+function loadSpot(){
+
+const lat = document.getElementById("lat").value;
+const lon = document.getElementById("lon").value;
+
+loadForecast(lat,lon);
+
+}
+
+async function loadForecast(lat,lon){
 
 const url =
-"https://marine-api.open-meteo.com/v1/marine?latitude=19.449187&longitude=72.748365&hourly=wave_height&forecast_days=3";
+`https://marine-api.open-meteo.com/v1/marine?latitude=${lat}&longitude=${lon}&hourly=wave_height&forecast_days=3`;
 
 const res = await fetch(url);
 const data = await res.json();
