@@ -83,3 +83,61 @@ document.getElementById("da-rating").innerText = getSurfRating(da);
 }
 
 loadForecast();
+
+
+const SPOTS_URL =
+"https://gist.githubusercontent.com/naotokui/01c384bf58ca43261eafe6a5e2ad6e85/raw/surfspots.json";
+
+async function loadSurfSpots(){
+
+const res = await fetch(SPOTS_URL);
+const spots = await res.json();
+
+const indiaSpots = spots.filter(spot =>
+spot.country && spot.country.includes("India")
+);
+
+populateDropdown(indiaSpots);
+
+}
+
+function populateDropdown(spots){
+
+const select = document.getElementById("spotSelect");
+
+spots.forEach(spot => {
+
+const option = document.createElement("option");
+
+option.value = `${spot.lat},${spot.lng}`;
+option.textContent = spot.name;
+
+select.appendChild(option);
+
+});
+
+}
+
+document.getElementById("spotSelect")
+.addEventListener("change", function(){
+
+if(!this.value) return;
+
+const coords = this.value.split(",");
+
+const lat = coords[0];
+const lon = coords[1];
+
+loadForecast(lat,lon);
+
+});
+
+window.onload = function(){
+
+loadSurfSpots();
+
+// default spot
+loadForecast(19.449187,72.748365);
+
+}
+
