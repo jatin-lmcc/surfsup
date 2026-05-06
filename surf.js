@@ -1,5 +1,11 @@
 const SURF_SPOTS = [
 {
+name: "Kallialay Surf School (Pondicherry)",
+lat: 11.970714,  
+lon: 79.845297
+},
+
+{
 name: "Mumbai Surf Club",
 lat: 19.430845,  
 lon: 72.754876
