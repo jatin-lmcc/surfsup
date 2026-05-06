@@ -178,10 +178,15 @@ window.onload = function(){
 
 renderSpotButtons();
 
-const firstSpot = SURF_SPOTS[0];
-loadForecast(firstSpot.lat, firstSpot.lon);
+// load default
+const defaultSpot = SURF_SPOTS[0];
+loadForecast(defaultSpot.lat, defaultSpot.lon);
 
-btn.classList.add("active");
+// highlight first button
+setTimeout(() => {
+document.querySelectorAll(".spot-btn")[0]
+.classList.add("active");
+}, 100);
 
 };
 
