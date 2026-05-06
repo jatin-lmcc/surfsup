@@ -44,7 +44,16 @@ btn.className = "spot-btn";
 btn.innerText = spot.name;
 
 btn.onclick = () => {
+// remove active class from all buttons
+document.querySelectorAll(".spot-btn")
+.forEach(b => b.classList.remove("active"));
+
+// add active class to clicked button
+btn.classList.add("active");
+
+// load forecast
 loadForecast(spot.lat, spot.lon);
+
 };
 
 container.appendChild(btn);
@@ -53,14 +62,6 @@ container.appendChild(btn);
 
 }
 
-function loadSpot(){
-
-const lat = document.getElementById("lat").value;
-const lon = document.getElementById("lon").value;
-
-loadForecast(lat,lon);
-
-}
 
 async function loadForecast(lat,lon){
 

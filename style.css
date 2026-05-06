@@ -98,3 +98,9 @@ cursor:pointer;
 .spot-btn:hover{
 background:#2c6e91;
 }
+
+.spot-btn.active{
+background:#00aaff;
+color:white;
+box-shadow:0 0 10px rgba(0,170,255,0.6);
+}
