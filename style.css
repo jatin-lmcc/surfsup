@@ -76,3 +76,25 @@ font-size:14px;
 }
 
 }
+
+.spot-buttons{
+display:flex;
+flex-wrap:wrap;
+gap:10px;
+margin:15px 0;
+justify-content:center;
+}
+
+.spot-btn{
+background:#1f4d6b;
+color:white;
+border:none;
+padding:10px 14px;
+border-radius:20px;
+font-size:13px;
+cursor:pointer;
+}
+
+.spot-btn:hover{
+background:#2c6e91;
+}

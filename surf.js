@@ -1,3 +1,64 @@
+const SURF_SPOTS = [
+{
+name: "Mumbai Surf Club",
+lat: 19.0760,
+lon: 72.8777
+},
+{
+name: "Shaka Surf Club (Mangalore)",
+lat: 12.9141,
+lon: 74.8560
+},
+{
+name: "Kadal Surf Club (Udupi)",
+lat: 13.3409,
+lon: 74.7421
+},
+{
+name: "Mambo Surf Club (Mulki)",
+lat: 13.0910,
+lon: 74.7928
+},
+{
+name: "Appu Surf Club (Kovalam)",
+lat: 8.4000,
+lon: 76.9784
+}
+];
+
+function renderSpotButtons(){
+
+const container = document.getElementById("spotButtons");
+
+SURF_SPOTS.forEach(spot => {
+
+const btn = document.createElement("button");
+
+btn.className = "spot-btn";
+btn.innerText = spot.name;
+
+btn.onclick = () => {
+loadForecast(spot.lat, spot.lon);
+};
+
+container.appendChild(btn);
+
+});
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 function loadSpot(){
 
 const lat = document.getElementById("lat").value;
@@ -134,10 +195,11 @@ loadForecast(lat,lon);
 
 window.onload = function(){
 
-loadSurfSpots();
+renderSpotButtons();
 
-// default spot
+// default = Arnala
 loadForecast(19.449187,72.748365);
 
-}
+};
+
 
